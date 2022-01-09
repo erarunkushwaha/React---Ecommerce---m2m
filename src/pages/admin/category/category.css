@@ -1,0 +1,68 @@
+.categoryContainer{
+    
+}
+.row{
+    width: 100%;
+    /* height: 10px; */
+    border: 1px solid #1976D2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+.pageTitle{
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #1976D2;
+}
+.modalContainer{
+    background-color: white;
+    /* border-radius: ; */
+    /* height: 900px; */
+    /* position: absolute; */
+}
+.modalbox{
+    position: relative;
+}
+
+
+.closeModalIcon{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: red;
+    cursor: pointer;
+}
+
+/* End of Modal section and Form Section */
+
+
+
+
+/* table section in Category */
+.tableConteiner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ margin-top: 20px;
+ border: 1px soild red !important;
+}
+.action{
+margin-top: 10px;
+}
+.deleteIcon{
+    color: red;
+    /* border: 1px solid red; */
+    /* padding: 5px; */
+    /* margin: 5px; */
+    /* height: 30px; */
+margin-left: 5px;
+cursor: pointer;
+
+}
+.editIcon{
+color: #1976D2;
+margin-left: 10px;
+cursor: pointer;
+}

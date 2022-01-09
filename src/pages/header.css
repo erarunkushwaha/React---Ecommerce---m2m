@@ -1,0 +1,169 @@
+.NavContainer{
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    height: 6rem;
+    background-color: rgb(91, 202, 169);
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 2px 4px 7px -3px rgba(0,0,0,0.44);
+-webkit-box-shadow: 2px 4px 7px -3px rgba(0,0,0,0.44);
+-moz-box-shadow: 2px 4px 7px -3px rgba(0,0,0,0.44);
+}
+
+.mobileContainer{
+display: none;
+}
+.LeftSection{
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid gray; */
+
+}
+.logo{
+    color: #fff;
+    font-size: 2rem;   
+}
+
+.searchSection{
+    width: 70%;
+    margin-left: 4rem;
+    /* border: 1px solid red; */
+    position: relative;
+  
+}
+.inputField{
+    /* margin-left: 5rem; */
+   width: 100%;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+    box-shadow: 3px 3px 1px -2px rgba(0,0,0,0.16);
+    -webkit-box-shadow: 3px 3px 1px -2px rgba(0,0,0,0.16);
+    -moz-box-shadow: 3px 3px 1px -2px rgba(0,0,0,0.16);
+    
+}
+
+.RightSection{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+.cartContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart{
+    font-size: 2rem;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+   
+    .LeftSection{
+        width: 45%;
+    }
+    .logo{
+        font-size: 1.6rem;
+    }
+    .RightSection{
+        width: 40%;
+        /* border: 1px solid red; */
+    }
+    
+
+}
+
+@media (max-width: 900px) {
+    html{
+        font-size: 52.5%;
+        /* scroll-behavior: smooth; */
+      }
+    .LeftSection{
+        width: 45%;
+    }
+    .logo{
+        font-size: 1.6rem;
+    }
+    .RightSection{
+        width: 40%;
+        /* border: 1px solid red; */
+    }
+    
+
+}
+@media (max-width: 600px) {
+    .NavContainer{
+        
+     display: none;  
+       
+    }
+    .mobileContainer{
+        display: block;
+
+        width: 100%;
+    height: 85px;
+    background-color: rgb(91, 202, 169);
+    display: flex;
+    flex-direction: column;
+    }
+    .upperSection{
+        margin-top: 10px;
+        display: flex;
+
+    }
+    .leftSection{
+        margin-left: 20px;
+        display: flex;
+        width: 45%;
+        align-items: center;
+    }
+    .logo{
+        margin-left: 10px;
+        font-size: 15px;
+    }
+    .menuIcon{
+        color: white;
+    }
+    .rightSection{
+        margin-right: 20px;
+        display: flex;
+        width: 55%;
+        justify-content: space-around;
+        /* border: 1px solid red; */
+    }
+    .cart{
+        color: #fff;
+    }
+    .login{
+        padding:.2rem 1rem;
+        border: 1px solid white;
+        color: white;
+        background-color: transparent;
+        cursor: pointer;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 2px;
+        
+    }
+    .lowerSection{
+       margin: 10px 20px;
+    position: relative;
+
+    }
+
+
+    
+
+
+}

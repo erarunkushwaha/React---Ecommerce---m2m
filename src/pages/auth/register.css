@@ -1,0 +1,24 @@
+.registerContainer{
+ margin: 40px auto;
+    width: 25%;
+    height: 50vh;
+    border: 1px solid rgb(91, 202, 169);
+  
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.google{
+    padding:.5rem 2rem;
+    /* border: 5px solid white; */
+    border: none;
+    color: white;
+    background-color:rgb(91, 202, 169);
+    cursor: pointer;
+    border-radius: 5px;
+   font-size: 2rem;
+   font-weight: 600;
+    letter-spacing: 2px;
+}

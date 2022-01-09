@@ -1,0 +1,7 @@
+.drawerContainer{
+    display: flex;
+    height: 200px;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 2px solid black;
+}
