@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 
 import { DataGrid } from '@mui/x-data-grid';
 import { toast } from "react-toastify";
+import AlertBox from "../compoent/AlertBox";
 
 
 const Category = () => {
@@ -34,6 +35,7 @@ const Category = () => {
     const [name, setName] = useState('');
 
     const [open, setOpen] = React.useState(false);
+    const [tableLoading, setTableLoading] = React.useState(true);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [status, setStatus] = React.useState('');
@@ -46,6 +48,13 @@ const Category = () => {
     const [edit, setEdit] = useState(false)
     const [slug, setSlug] = useState('');
 
+    // for open alert
+    const [openAlert, setOpenAlert] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    //   for delete 
+    const [slugForDeleteItem, setSlugForDeleteItem] = useState('')
+    const [titleForDeleteItem, setTitleForDeleteItem] = useState('')
+
 
     const handleChange = (event) => {
         setStatus(event.target.value);
@@ -53,6 +62,7 @@ const Category = () => {
 
     const loadCategory = () => {
         getAllCategory().then((res) => setCategory((res.data.category).map((cat, index) => {
+            setTableLoading(false);
             return { id: index + 1, ...cat };
         })));
     };
@@ -74,68 +84,67 @@ const Category = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!name) {
             setNameError(true)
-        setLoading(false);
+            setLoading(false);
 
         }
         if (name.length <= 3) {
             setNameError(true)
             setNameErrorText('To short Category Name')
-        setLoading(false);
+            setLoading(false);
 
         }
         if (!status) {
-        console.log(name);
+            console.log(name);
 
             setStatusError('true')
             setStatusErrorText('required')
-        setLoading(false);
+            setLoading(false);
 
         }
 
-        if(!name ||name.length <= 3|| !status ){
+        if (!name || name.length <= 3 || !status) {
             return;
         }
-
         setLoading(true);
 
-        if(!edit){
+        if (!edit) {
             createCategory(name, status, user.accessToken).then((res) => {
                 console.log(res.category.name);
                 clearForm();
                 toast.success(`${res.category.name} is created`);
                 loadCategory();
-    
+
             }).catch((err) => {
                 setLoading(false);
-    
+
                 if (err.response.status === 400) {
                     console.log((err.response));
                     setNameError(true)
                     setNameErrorText('Duplicate Category name')
                 }
                 toast.error(`Oops! category cannot be created at this moment`)
-    
+
             });
             //    try {
         } else {
-             updateCategory(slug,name,status, user.accessToken).then((res) => {
-               clearForm();
-            handleClose()
-            loadCategory();
-            return toast.success(`Category Updated Successfully !`)
-            
-        }).catch((err) => {
-            setLoading(false);
-           return toast.error(`Oops! category cannot be updated at this moment`)
-        });
-        
-      
-     
+            updateCategory(slug, name, status, user.accessToken).then((res) => {
+                clearForm();
+                handleClose()
+                loadCategory();
+                return toast.success(`Category Updated Successfully !`)
+
+            }).catch((err) => {
+                setLoading(false);
+                return toast.error(`Oops! category cannot be updated at this moment`)
+            });
+
+
+
         }
-       
+
 
     }
 
@@ -161,6 +170,14 @@ const Category = () => {
         borderRadius: '5px',
         color: '#1976D2'
     }
+    const StatusIocn = ({ status }) => {
+        return (
+            <span className={ (status === 'active') ? 'activeBadge' : 'inactiveBadge' }>
+                { status }
+            </span>
+
+        );
+    }
 
 
     const Input = styled('input')({
@@ -170,16 +187,25 @@ const Category = () => {
     // this is table section  /////
 
 
-    const deleteCategry = (slug) => {
+    const deleteCategry = (row) => {
+        setSlugForDeleteItem(row.slug);
+        setTitleForDeleteItem(row.name);
+        setOpenAlert(true);
+       
 
-        removeCategory(slug, user.accessToken).then((res) => {
-           loadCategory();
-            return toast.success(`${res.data.msg}`)
-        }).catch((err) => console.log('error', err));
     }
 
+    useEffect(() => {
+        if (confirmDelete) {
+            setConfirmDelete(false);
+            removeCategory(slugForDeleteItem, user.accessToken).then((res) => {
+                loadCategory();
+                return toast.success(`${res.data.msg}`)
+            }).catch((err) => toast.error(`subCategory cannot be delete at this moment !`));
+        }
+    }, [confirmDelete])
+
     const update = (row) => {
-      
         setEdit(true)
         setName(row.name)
         setStatus(row.status)
@@ -192,8 +218,6 @@ const Category = () => {
         border: '1px solid red',
         fontSize: 25,
         borderRadius: '5px',
-
-
     }
     const editIconStyle = {
         border: '1px solid #1976D2',
@@ -201,10 +225,10 @@ const Category = () => {
         borderRadius: '5px'
 
     }
-    const ActionIcon = ({ row, slug }) => {
+    const ActionIcon = ({ row }) => {
         return (
             <div className="action" >
-                <span className="deleteIcon"><DeleteForeverIcon onClick={ () => deleteCategry(slug) } sx={ deleteIconStyle } /></span>
+                <span className="deleteIcon"><DeleteForeverIcon onClick={ () => deleteCategry(row) } sx={ deleteIconStyle } /></span>
                 <span className="editIcon"><EditIcon onClick={ (() => update(row)) } sx={ editIconStyle } /></span>
             </div>
         );
@@ -212,13 +236,16 @@ const Category = () => {
     const columns = [
         { field: 'id', headerName: 'ID', width: 50 },
         { field: 'name', headerName: 'Title', width: 150 },
-        { field: 'status', headerName: 'Status', width: 150 },
-        { field: 'slug', headerName: 'Slug', width: 120 },
-
+        {
+            field: 'status',
+            headerName: 'Status',
+            renderCell: (params) => <StatusIocn status={ params.row.status } />,
+            width: 150
+        },
         {
             field: 'action',
             headerName: 'Action',
-            renderCell: (params) => <ActionIcon row={ params.row } slug={ params.row.slug } />,
+            renderCell: (params) => <ActionIcon row={ params.row } />,
             width: 120,
         },
 
@@ -264,7 +291,7 @@ const Category = () => {
                                                 <FormControl required sx={ { minWidth: 120 } }>
                                                     <TextField name="cat" error={ nameError }
                                                         label='Category Title '
-                                                        id='custom-css-outlined-input' value={name} onChange={ e => setName(e.target.value) } helperText={ nameErrorText }
+                                                        id='custom-css-outlined-input' value={ name } onChange={ e => setName(e.target.value) } helperText={ nameErrorText }
                                                     />
 
                                                 </FormControl>
@@ -321,11 +348,15 @@ const Category = () => {
                                     </Box>
                                 </Modal>
                             </div>
+                            <div className="alertCotainer">
+                                <AlertBox type={ "Category" } openAlert={ openAlert } setOpenAlert={ setOpenAlert } titleForDeleteItem={ titleForDeleteItem } setConfirmDelete={ setConfirmDelete } />
+                            </div>
                             <div className="tableConteiner">
-                                <div style={ { height: 500, width: '60%' } }>
+                                <div style={ { height: 500, width: '45%' } }>
                                     <DataGrid sx={ { fontSize: 15 } }
                                         rows={ rows }
                                         columns={ columns }
+                                        loading={ tableLoading }
                                         pageSize={ 7 }
                                         rowsPerPageOptions={ [7] }
 

@@ -17,6 +17,7 @@
     color: #1976D2;
 }
 .modalContainer{
+    width: 100%;
     background-color: white;
     /* border-radius: ; */
     /* height: 900px; */
@@ -46,7 +47,7 @@
     align-items: center;
     justify-content: center;
  margin-top: 20px;
- border: 1px soild red !important;
+ /* border: 2px soild red !important; */
 }
 .action{
 margin-top: 10px;
@@ -65,4 +66,10 @@ cursor: pointer;
 color: #1976D2;
 margin-left: 10px;
 cursor: pointer;
+}
+.inactiveBadge{
+    color:red
+}
+.activeBadge{
+    color:green
 }

@@ -9,3 +9,24 @@
     right: 1%;
     
 }
+/* .modalContainer{
+    width: 100%;
+    background-color: white;
+   
+} */
+/* .modalbox{
+    position: relative;
+} */
+.tableConteiner{
+    /* border: 2px solid red; */
+}
+.tableConteinera{
+    /* border: 2px solid red; */
+   
+}
+.inactiveBadge{
+    color:red
+}
+.activeBadge{
+    color:green
+}
